@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="template")
 
 
 @app.route('/')
@@ -12,7 +12,7 @@ def fun1():
 link = "http://api.openweathermap.org/data/2.5/weather?q={}&appid=1cce1d3fdcf9b8e3576065bd845b8f4d"
 
 
-@app.route('/weatherdata/', methods=["POST", "GET"])
+@app.route('/weatherdata', methods=["POST", "GET"])
 def fun2():
     if request.method == "POST":
         city = request.form['city']
@@ -33,8 +33,7 @@ def fun2():
         z = api['sys']
         country = z['country']
         citi = api['name']
-        return render_template("weatherdata.html", city=citi, time=api['timezone'], country=country,
-                               temp=current_temprature, temp_min=tempmin, temp_max=tempmax)
+        return render_template("weatherdata.html", city=citi, time=api['timezone'], country=country, temp=current_temprature, temp_min=tempmin, temp_max=tempmax)
 
 
 if __name__ == "__main__":
